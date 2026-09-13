@@ -8,7 +8,21 @@
       name="description"
       content="纯前端开发者工具集：JSON 格式化、时间戳转换、Base64、URL 编解码、哈希、文本对比。所有计算在浏览器本地完成，数据不上传。"
     />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!--
+      图标直接内联成 data URI，不引外部 favicon.svg。
+
+      原因：整个站点是单文件构建（见 vite.config.js），产物只有 index.html 一个文件。
+      如果这里还指向外部文件，用 file:// 双击打开时图标必然加载失败，
+      控制台会多一条没有意义的报错。内联之后产物真正零外部请求。
+
+      改动图标时重新生成 base64：
+        node -e "console.log('data:image/svg+xml;base64,'+require('fs').readFileSync('public/favicon.svg').toString('base64'))"
+    -->
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+IDxyZWN0IHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgcng9IjciIGZpbGw9IiMwOTY5ZGEiLz4gPHBhdGggZD0iTTEyLjUgOS41IDggMTZsNC41IDYuNU0xOS41IDkuNSAyNCAxNmwtNC41IDYuNSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjIuMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+IDxjaXJjbGUgY3g9IjE2IiBjeT0iMTYiIHI9IjIiIGZpbGw9IiNmZmYiLz4gPC9zdmc+"
+    />
 
     <!--
       ===========================================================================
