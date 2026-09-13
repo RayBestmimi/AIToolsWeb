@@ -21,8 +21,12 @@ dist-ssr/
 *.sw?
 
 # Claude Code 的本地权限配置，跟机器绑定，不进仓库
-# （根目录的 CLAUDE.md 是项目文档，要保留）
 .claude/settings.local.json
+
+# 项目内部协作文档：只在本机用，不进公开仓库。
+# 它记录的是"这个项目怎么跟 AI 协作"的内部约定，不适合对外发布。
+# 本地文件照常保留，只是不纳入版本控制。
+CLAUDE.md
 
 # 系统
 .DS_Store
