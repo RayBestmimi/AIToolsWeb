@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <meta
+      name="description"
+      content="纯前端开发者工具集：JSON 格式化、时间戳转换、Base64、URL 编解码、哈希、文本对比。所有计算在浏览器本地完成，数据不上传。"
+    />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!--
+      ===========================================================================
+      防闪白（FOUC）脚本
+
+      必须满足三个条件，缺一个就会在刷新时闪一下白屏：
+        1. 放在 <head> 里，且在任何 <link rel="stylesheet"> 之前
+        2. 是普通 <script>，不能加 type="module"
+           （module 脚本默认是 defer 的，会等到 HTML 解析完才执行，那时已经画完一帧了）
+        3. 逻辑与 src/composables/useTheme.js 完全一致
+
+      ⚠️ 两处共享同一个 localStorage key 'aitw:theme' 和同一套三态语义
+         （'auto' | 'light' | 'dark'）。
+         改这里就必须同步改 useTheme.js，反之亦然。
+      ===========================================================================
+    -->
+    <script>
+      ;(function () {
+        var KEY = 'aitw:theme'
+        var mode
+        try {
+          mode = localStorage.getItem(KEY)
+        } catch (e) {
+          // Safari 无痕模式下 localStorage 会直接抛异常
+          mode = null
+        }
+        if (mode !== 'light' && mode !== 'dark' && mode !== 'auto') mode = 'auto'
+
+        var resolved =
+          mode === 'auto'
+            ? window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light'
+            : mode
+
+        document.documentElement.setAttribute('data-theme', resolved)
+        document.documentElement.setAttribute('data-theme-mode', mode)
+      })()
+    </script>
+
+    <title>AIToolsWeb · 开发者工具箱</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

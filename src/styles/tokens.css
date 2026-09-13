@@ -1,0 +1,154 @@
+/**
+ * 设计令牌
+ *
+ * 全站所有颜色、圆角、间距、字体都从这里取值，组件里不要写死颜色。
+ *
+ * 主题切换的原理：<html> 上的 data-theme 属性一变，下面这套 CSS 变量就被重新求值，
+ * 浏览器直接重算样式，没有任何组件重新渲染、没有 JS 参与。
+ * 所以新增工具时不需要为深色模式写任何额外代码。
+ *
+ * 三态语义（与 index.html 里那段内联脚本、与 useTheme.js 保持一致）：
+ *   data-theme      = 'light' | 'dark'   —— 当前实际生效的外观
+ *   data-theme-mode = 'auto' | 'light' | 'dark' —— 用户的选择，auto 表示跟随系统
+ */
+
+:root {
+  /* ---------------------------------------------------------------
+     告诉浏览器当前配色方案。这一个属性能让滚动条、<select> 下拉、
+     <input> 光标、<textarea> 边框等原生控件自动跟着变深浅色，
+     不用为它们写任何额外 CSS。
+     --------------------------------------------------------------- */
+  color-scheme: light;
+
+  /* 表面 */
+  --bg: #ffffff;
+  --bg-elev: #f6f8fa; /* 卡片、面板等抬起的表面 */
+  --bg-sunken: #eef1f4; /* 输入框等凹陷的表面 */
+  --bg-hover: #eaeef2; /* 悬停态 */
+  --bg-active: #dfe4ea; /* 按下 / 选中态 */
+
+  /* 文字 */
+  --fg: #1f2328;
+  --fg-muted: #59636e; /* 次要说明文字 */
+  --fg-subtle: #818b98; /* 更弱的提示，如占位符 */
+  --fg-on-accent: #ffffff;
+
+  /* 描边 */
+  --border: #d1d9e0;
+  --border-strong: #b8c0c8;
+
+  /* 主色 */
+  --accent: #0969da;
+  --accent-hover: #0860ca;
+  --accent-bg: #ddf4ff; /* 主色的浅底，用于选中态背景 */
+
+  /* 语义色 */
+  --danger: #cf222e;
+  --danger-bg: #ffebe9;
+  --warn: #9a6700;
+  --warn-bg: #fff8c5;
+  --ok: #1a7f37;
+  --ok-bg: #dafbe1;
+
+  /* 语法着色（JSON 树视图用） */
+  --syn-key: #0550ae;
+  --syn-string: #0a3069;
+  --syn-number: #953800;
+  --syn-bool: #8250df;
+  --syn-null: #59636e;
+  --syn-punct: #818b98;
+
+  /* 文本对比着色 */
+  --diff-add-bg: #e6ffec;
+  --diff-add-fg: #1a7f37;
+  --diff-del-bg: #ffebe9;
+  --diff-del-fg: #cf222e;
+  --diff-hl-bg: #abf2bc; /* 行内的词级高亮，比整行底色更深一档 */
+  --diff-hl-del-bg: #ffc9c4;
+  --diff-gutter: #818b98;
+
+  /* 阴影 */
+  --shadow-sm: 0 1px 2px rgba(31, 35, 40, 0.06);
+  --shadow-md: 0 3px 12px rgba(31, 35, 40, 0.1);
+
+  /* 圆角 */
+  --radius-sm: 4px;
+  --radius: 6px;
+  --radius-lg: 10px;
+
+  /* 间距 */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+
+  /* 字体 */
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
+    'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas,
+    'Liberation Mono', 'Courier New', monospace;
+
+  --fs-xs: 12px;
+  --fs-sm: 13px;
+  --fs-base: 14px;
+  --fs-md: 15px;
+  --fs-lg: 18px;
+  --fs-xl: 22px;
+
+  /* 动效 */
+  --transition: 0.15s ease;
+
+  /* 布局尺寸 */
+  --sidebar-w: 232px;
+  --topbar-h: 52px;
+  --content-max: 1200px;
+}
+
+html[data-theme='dark'] {
+  color-scheme: dark;
+
+  --bg: #0d1117;
+  --bg-elev: #161b22;
+  --bg-sunken: #010409;
+  --bg-hover: #1f242c;
+  --bg-active: #2a313a;
+
+  --fg: #e6edf3;
+  --fg-muted: #9198a1;
+  --fg-subtle: #6e7681;
+  --fg-on-accent: #ffffff;
+
+  --border: #30363d;
+  --border-strong: #444c56;
+
+  --accent: #4493f8;
+  --accent-hover: #58a6ff;
+  --accent-bg: #121d2f;
+
+  --danger: #f85149;
+  --danger-bg: #2c1618;
+  --warn: #d29922;
+  --warn-bg: #2a2416;
+  --ok: #3fb950;
+  --ok-bg: #12261e;
+
+  --syn-key: #79c0ff;
+  --syn-string: #a5d6ff;
+  --syn-number: #ffa657;
+  --syn-bool: #d2a8ff;
+  --syn-null: #8b949e;
+  --syn-punct: #6e7681;
+
+  --diff-add-bg: #12261e;
+  --diff-add-fg: #3fb950;
+  --diff-del-bg: #25171c;
+  --diff-del-fg: #f85149;
+  --diff-hl-bg: #1f6f34;
+  --diff-hl-del-bg: #7d2c28;
+  --diff-gutter: #6e7681;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 3px 12px rgba(0, 0, 0, 0.45);
+}

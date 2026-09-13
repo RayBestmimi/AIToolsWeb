@@ -1,0 +1,63 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  # 允许在 Actions 页面手动点一下触发，方便调试
+  workflow_dispatch:
+
+# GitHub Pages 部署所需的最小权限集
+permissions:
+  contents: read # 读取仓库代码
+  pages: write # 写入 Pages 站点
+  id-token: write # 部署来源证明（OIDC），deploy-pages 必需
+
+# 同一时刻只允许一个 Pages 部署在跑。
+# cancel-in-progress: false 是 GitHub 官方对 Pages 的推荐值：
+# 中途打断一次发布可能让站点卡在「部署中」状态，让后一次排队等待更安全。
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          # 与本地 v24 保持一致。Vite 8 要求 Node >= 22.12
+          node-version: '24'
+          # 缓存 ~/.npm，依赖没变时后续构建能省 20-40 秒
+          cache: npm
+
+      - name: Install dependencies
+        # 必须用 ci 而不是 install：ci 严格按照 package-lock.json 安装，
+        # 保证 CI 和本地装出来的依赖完全一致
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v6
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          # 只上传构建产物，不要把整个仓库传上去
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

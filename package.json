@@ -1,0 +1,24 @@
+{
+  "name": "aitoolsweb",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "纯前端开发者工具聚合站，所有计算在浏览器本地完成",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "diff": "^9.0.0",
+    "vue": "^3.5.42",
+    "vue-router": "^5.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.8",
+    "vite": "^8.3.0"
+  }
+}

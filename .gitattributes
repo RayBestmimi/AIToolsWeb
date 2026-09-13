@@ -1,0 +1,27 @@
+# 统一行尾符为 LF
+#
+# 为什么需要：Windows 上 git 默认会把文本文件检出成 CRLF，而 CI 跑在 Linux 上
+# 是 LF。两边不一致会导致 git 一直报告"文件被修改"，diff 也全是噪音。
+# 显式固定成 LF 后，无论谁的机器、什么配置，仓库里的行尾都一致。
+#
+# 注意：这只影响**仓库里的存储和检出**，不影响编辑器和构建。
+* text=auto eol=lf
+
+# 二进制文件不要做行尾转换，否则会损坏内容
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.ico  binary
+*.webp binary
+*.woff  binary
+*.woff2 binary
+*.ttf   binary
+*.pdf   binary
+
+# 这些文件在 Windows 上习惯用 CRLF，保持原样
+*.bat  text eol=crlf
+*.cmd  text eol=crlf
+
+# 让 GitHub 的语言统计正确识别
+package-lock.json linguist-generated=true

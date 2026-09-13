@@ -1,0 +1,131 @@
+/**
+ * 工具页共用样式
+ *
+ * 这里只放多个工具都会用到、但又不属于某个具体组件的样式。
+ * 单个组件自己的样式写在组件的 <style scoped> 里。
+ */
+
+/* 工具页内容容器 */
+.tool-page {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+/* 上下堆叠的两个面板之间留出空隙 */
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+/* 并排两栏，窄屏自动变成上下排列 */
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-3);
+}
+
+@media (max-width: 900px) {
+  .split {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 一行内的若干控件横向排布 */
+.inline {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+}
+
+/* 只读的输出区域：可选中复制，但看起来不像可编辑的输入框 */
+.output-block {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-all;
+  padding: var(--sp-3);
+  background-color: var(--bg-sunken);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  max-height: 60vh;
+  overflow: auto;
+  margin: 0;
+}
+
+/* 表格 */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-sm);
+}
+
+.data-table th {
+  text-align: left;
+  font-weight: 600;
+  color: var(--fg-muted);
+  padding: var(--sp-2);
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.data-table td {
+  padding: var(--sp-2);
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+.data-table tr:last-child td {
+  border-bottom: none;
+}
+
+.data-table tbody tr:hover {
+  background-color: var(--bg-hover);
+}
+
+.data-table .cell-mono {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  word-break: break-all;
+}
+
+/* 空状态提示 */
+.empty-hint {
+  padding: var(--sp-5);
+  text-align: center;
+  color: var(--fg-subtle);
+  font-size: var(--fs-sm);
+}
+
+/* 键值对展示行 */
+.kv {
+  display: flex;
+  gap: var(--sp-3);
+  padding: var(--sp-2) 0;
+  border-bottom: 1px solid var(--border);
+  align-items: baseline;
+}
+
+.kv:last-child {
+  border-bottom: none;
+}
+
+.kv-key {
+  flex-shrink: 0;
+  min-width: 130px;
+  font-size: var(--fs-sm);
+  color: var(--fg-muted);
+}
+
+.kv-val {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  word-break: break-all;
+}
