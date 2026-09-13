@@ -1,4 +1,4 @@
-import { ref, computed, watchEffect } from 'vue'
+import { ref, computed, watch, watchEffect } from 'vue'
 
 /**
  * 主题状态机（三态）
@@ -13,9 +13,20 @@ import { ref, computed, watchEffect } from 'vue'
  *
  * ⚠️ 本文件的 KEY 与三态语义必须与 index.html 里那段防闪白内联脚本完全一致。
  *    改这里就必须同步改那边，反之亦然。
+ *
+ * 另一个耦合点：下面用的 THEME_CLASS 与 base.css 里的过渡规则配套，
+ * 改名要两处一起改。内联脚本不需要知道这个类 —— 它从不加类，所以首帧永远无过渡。
  */
 
 const KEY = 'aitw:theme'
+
+/** 切主题时临时挂在 <html> 上的类，base.css 靠它开一个过渡窗口 */
+const THEME_CLASS = 'theme-transition'
+
+/** 过渡窗口时长。必须 ≥ CSS 里的 --transition-theme(200ms)，留 20ms 余量 */
+const THEME_MS = 220
+
+const REDUCE = window.matchMedia('(prefers-reduced-motion: reduce)')
 
 const media = window.matchMedia('(prefers-color-scheme: dark)')
 
@@ -38,10 +49,39 @@ const resolved = computed(() =>
   mode.value === 'auto' ? (systemDark.value ? 'dark' : 'light') : mode.value
 )
 
+let transitionTimer = null
+
+/**
+ * 外观写入 + 过渡窗口
+ *
+ * 为什么拆成两个 watch 而不是一个 watchEffect：
+ * 过渡窗口必须在"外观真的变了"时才开。watchEffect 不告诉你上一个值是什么，
+ * 首次运行也会触发一次 —— 那次是页面初始渲染，绝不能带过渡。
+ * watch 拿得到 (next, prev)，用 prev === undefined 就能精确排除首次。
+ */
+watch(
+  resolved,
+  (next, prev) => {
+    const root = document.documentElement
+
+    if (prev !== undefined && next !== prev && !REDUCE.matches) {
+      root.classList.add(THEME_CLASS)
+      clearTimeout(transitionTimer)
+      transitionTimer = setTimeout(
+        () => root.classList.remove(THEME_CLASS),
+        THEME_MS
+      )
+    }
+
+    root.setAttribute('data-theme', next)
+  },
+  { immediate: true }
+)
+
+/** 与外观无关的写入：用户的选择、以及持久化 */
 watchEffect(() => {
-  const el = document.documentElement
-  el.setAttribute('data-theme', resolved.value)
-  el.setAttribute('data-theme-mode', mode.value)
+  const root = document.documentElement
+  root.setAttribute('data-theme-mode', mode.value)
   try {
     localStorage.setItem(KEY, mode.value)
   } catch {

@@ -61,23 +61,23 @@ watch(
 .app-content {
   flex: 1;
   overflow-y: auto;
-  padding: var(--sp-5) var(--sp-5) var(--sp-6);
+  padding: var(--sp-7);
 }
 
 .app-backdrop {
   position: fixed;
   inset: 0;
   z-index: 40;
-  background: rgba(0, 0, 0, 0.4);
+  background: var(--scrim);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .app-content {
-    padding: var(--sp-4) var(--sp-3) var(--sp-5);
+    padding: var(--sp-4) var(--sp-3) var(--sp-6);
   }
 }
 
-@media (min-width: 769px) {
+@media (min-width: 901px) {
   /* 宽屏下抽屉遮罩永远不显示 */
   .app-backdrop {
     display: none;

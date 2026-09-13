@@ -19,7 +19,7 @@ const emit = defineEmits(['update:modelValue'])
 
 <template>
   <div class="segmented-wrap">
-    <span v-if="label" class="seg-label">{{ label }}</span>
+    <span v-if="label" class="ctl-label">{{ label }}</span>
     <div class="segmented" role="group" :aria-label="label || undefined">
       <button
         v-for="opt in options"
@@ -44,11 +44,6 @@ const emit = defineEmits(['update:modelValue'])
   gap: var(--sp-2);
 }
 
-.seg-label {
-  font-size: var(--fs-sm);
-  color: var(--fg-muted);
-}
-
 .segmented {
   display: inline-flex;
   padding: 2px;
@@ -67,13 +62,16 @@ const emit = defineEmits(['update:modelValue'])
   transition: background-color var(--transition), color var(--transition);
 }
 
+/* 用 --bg-active 而不是 --bg-hover：悬停色压在 --bg-sunken 的轨道上，
+   两者只差一档，几乎看不出来 */
 .seg-btn:hover:not(.active) {
   color: var(--fg);
-  background-color: var(--bg-hover);
+  background-color: var(--bg-active);
 }
 
+/* 滑块必须比轨道亮/白，且不能和外面的卡片同色 —— 所以是 --bg-raised */
 .seg-btn.active {
-  background-color: var(--bg-elev);
+  background-color: var(--bg-raised);
   color: var(--fg);
   font-weight: 500;
   box-shadow: var(--shadow-sm);

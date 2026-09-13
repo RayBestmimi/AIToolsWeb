@@ -3,29 +3,17 @@
  *
  * 这里只放多个工具都会用到、但又不属于某个具体组件的样式。
  * 单个组件自己的样式写在组件的 <style scoped> 里。
+ *
+ * 判断标准：如果同一段样式在 3 个以上的地方逐字重复出现，就该搬到这里来。
+ * 注意这里是"共享常量"层，不是"共享逻辑"层 —— 纯排版的东西放这儿就够了，
+ * 包成 Vue 组件只会多一层 DOM 和一次实例化。
  */
-
-/* 工具页内容容器 */
-.tool-page {
-  max-width: var(--content-max);
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-4);
-}
-
-/* 上下堆叠的两个面板之间留出空隙 */
-.stack {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-3);
-}
 
 /* 并排两栏，窄屏自动变成上下排列 */
 .split {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--sp-3);
+  gap: var(--sp-4);
 }
 
 @media (max-width: 900px) {
@@ -34,29 +22,74 @@
   }
 }
 
-/* 一行内的若干控件横向排布 */
-.inline {
-  display: flex;
+/* ---------------------------------------------------------------------------
+   按钮
+   --------------------------------------------------------------------------- */
+
+/* 安静的次要按钮（清空、交换左右、跳到错误位置）。
+   CopyButton.vue 也复用它作为基类，所以改这里的视觉会同时影响复制按钮。 */
+.plain-btn {
+  display: inline-flex;
   align-items: center;
-  gap: var(--sp-3);
-  flex-wrap: wrap;
+  gap: var(--sp-1);
+  padding: var(--sp-1) var(--sp-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background-color: var(--bg-raised);
+  color: var(--fg-muted);
+  font-size: var(--fs-xs);
+  white-space: nowrap;
+  transition: background-color var(--transition), color var(--transition),
+    border-color var(--transition);
 }
 
-/* 只读的输出区域：可选中复制，但看起来不像可编辑的输入框 */
-.output-block {
-  font-family: var(--font-mono);
-  font-size: var(--fs-sm);
-  line-height: 1.6;
-  white-space: pre-wrap;
-  word-break: break-all;
-  padding: var(--sp-3);
-  background-color: var(--bg-sunken);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  max-height: 60vh;
-  overflow: auto;
-  margin: 0;
+/* 必须排除 .copied / .failed：这条规则的特异性 (0,3,0) 高于
+   .copy-btn.copied (0,2,0)，不排除的话鼠标悬停在"已复制"按钮上会把
+   成功态的绿色底色盖掉。 */
+.plain-btn:hover:not(:disabled):not(.copied):not(.failed) {
+  background-color: var(--bg-hover);
+  color: var(--fg);
 }
+
+/* ---------------------------------------------------------------------------
+   排版
+   --------------------------------------------------------------------------- */
+
+/* 卡片内的小块标题：多时区对比 / Query 参数 / 图片转 Base64 */
+.block-title {
+  font-size: var(--fs-lg);
+  font-weight: 600;
+}
+
+/* 控件旁边的小标签。.strong 用在真正需要强调的地方（如输入框标题） */
+.ctl-label {
+  font-size: var(--fs-sm);
+  color: var(--fg-muted);
+  white-space: nowrap;
+}
+
+.ctl-label.strong {
+  font-weight: 500;
+}
+
+/* 输入框旁边或下方的小字提示。
+   .tight 用来抵消 OptionBar 的下边距，让提示贴紧上方控件 */
+.field-note {
+  font-size: var(--fs-xs);
+  color: var(--fg-subtle);
+}
+
+.field-note.warn {
+  color: var(--warn);
+}
+
+.field-note.tight {
+  margin-top: calc(-1 * var(--sp-2));
+}
+
+/* ---------------------------------------------------------------------------
+   数据展示
+   --------------------------------------------------------------------------- */
 
 /* 表格 */
 .data-table {
@@ -96,7 +129,7 @@
 
 /* 空状态提示 */
 .empty-hint {
-  padding: var(--sp-5);
+  padding: var(--sp-6);
   text-align: center;
   color: var(--fg-subtle);
   font-size: var(--fs-sm);

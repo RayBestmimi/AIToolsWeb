@@ -114,14 +114,14 @@ function sizeText() {
 }
 
 .brand-icon {
-  width: 22px;
-  height: 22px;
+  width: var(--icon-lg);
+  height: var(--icon-lg);
   flex-shrink: 0;
 }
 
 .brand-name {
   font-weight: 600;
-  font-size: var(--fs-md);
+  font-size: var(--fs-lg);
   letter-spacing: -0.01em;
 }
 
@@ -134,8 +134,8 @@ function sizeText() {
 }
 
 .close-btn svg {
-  width: 18px;
-  height: 18px;
+  width: var(--icon);
+  height: var(--icon);
   display: block;
 }
 
@@ -176,7 +176,7 @@ function sizeText() {
   padding: var(--sp-2);
   border-radius: var(--radius);
   color: var(--fg-muted);
-  font-size: var(--fs-base);
+  font-size: var(--fs-md);
   text-decoration: none;
   transition: background-color var(--transition), color var(--transition);
 }
@@ -195,8 +195,8 @@ function sizeText() {
 }
 
 .item-icon {
-  width: 17px;
-  height: 17px;
+  width: var(--icon);
+  height: var(--icon);
   flex-shrink: 0;
 }
 
@@ -249,7 +249,7 @@ function sizeText() {
 
 /* ---------- 窄屏：变成抽屉 ---------- */
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .app-sidebar {
     position: fixed;
     top: 0;

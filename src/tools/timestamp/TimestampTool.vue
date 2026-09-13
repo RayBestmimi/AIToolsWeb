@@ -249,7 +249,7 @@ function useNowAsInput() {
         />
       </div>
 
-      <p v-if="unitHint" class="hint">{{ unitHint }}</p>
+      <p v-if="unitHint" class="field-note warn">{{ unitHint }}</p>
       <ErrorBanner v-if="stampError" :message="stampError" />
 
       <template v-if="formats.length">
@@ -263,7 +263,7 @@ function useNowAsInput() {
 
         <section class="zones">
           <div class="section-head">
-            <h2 class="section-title">多时区对比</h2>
+            <h2 class="block-title">多时区对比</h2>
             <SelectField
               :model-value="''"
               :options="compareOptions"
@@ -338,7 +338,7 @@ function useNowAsInput() {
   align-items: center;
   gap: var(--sp-2);
   padding: var(--sp-2) var(--sp-3);
-  background-color: var(--bg-elev);
+  background-color: var(--bg-sunken);
   border: 1px solid var(--border);
   border-radius: var(--radius);
 }
@@ -379,7 +379,7 @@ function useNowAsInput() {
 
 .kv-list {
   padding: var(--sp-1) var(--sp-3);
-  background-color: var(--bg-elev);
+  background-color: var(--bg-sunken);
   border: 1px solid var(--border);
   border-radius: var(--radius);
 }
@@ -399,10 +399,6 @@ function useNowAsInput() {
   flex-wrap: wrap;
 }
 
-.section-title {
-  font-size: var(--fs-md);
-}
-
 .chips {
   display: flex;
   flex-wrap: wrap;
@@ -413,31 +409,12 @@ function useNowAsInput() {
   padding: 2px var(--sp-2);
   background-color: var(--accent-bg);
   color: var(--accent);
-  border-radius: 999px;
+  border-radius: var(--radius-full);
   font-size: var(--fs-xs);
 }
 
 .chip:hover {
-  background-color: var(--accent);
+  background-color: var(--accent-hover);
   color: var(--fg-on-accent);
-}
-
-.hint {
-  font-size: var(--fs-xs);
-  color: var(--warn);
-}
-
-.plain-btn {
-  padding: var(--sp-1) var(--sp-2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  background-color: var(--bg-elev);
-  color: var(--fg-muted);
-  font-size: var(--fs-xs);
-}
-
-.plain-btn:hover {
-  background-color: var(--bg-hover);
-  color: var(--fg);
 }
 </style>

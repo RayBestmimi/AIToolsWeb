@@ -34,7 +34,8 @@ defineProps({
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: var(--sp-4);
+  /* 标题与下方卡片之间。这就是 20px 那档间距存在的理由 */
+  gap: var(--sp-5);
 }
 
 .head {
@@ -63,9 +64,23 @@ defineProps({
   flex-shrink: 0;
 }
 
+/* 工作区是整页唯一一张浮起的卡片。标题留在页面灰底上、卡片之外，
+   视觉动线是「标题 → 卡片」。（深色下 --shadow-card 是一道顶部内高光，
+   阴影在暗底上读不出来。） */
 .body {
   display: flex;
   flex-direction: column;
-  gap: var(--sp-3);
+  gap: var(--sp-4);
+  padding: var(--sp-6);
+  background-color: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+
+@media (max-width: 900px) {
+  .body {
+    padding: var(--sp-4);
+  }
 }
 </style>

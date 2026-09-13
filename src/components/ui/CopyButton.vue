@@ -27,7 +27,7 @@ async function onClick() {
 
 <template>
   <button
-    class="copy-btn"
+    class="copy-btn plain-btn"
     :class="[`size-${size}`, { copied, failed }]"
     type="button"
     :disabled="disabled || isEmpty"
@@ -63,25 +63,11 @@ async function onClick() {
 </template>
 
 <style scoped>
-.copy-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--sp-1);
-  padding: var(--sp-1) var(--sp-2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  background-color: var(--bg-elev);
-  color: var(--fg-muted);
-  font-size: var(--fs-xs);
-  white-space: nowrap;
-  transition: background-color var(--transition), color var(--transition),
-    border-color var(--transition);
-}
+/* 基础外观（内边距、边框、圆角、底色、hover）全部来自全局的 .plain-btn，
+   这里只写它自己没有的三样东西：成功/失败状态、大号变体、图标尺寸。
 
-.copy-btn:hover:not(:disabled) {
-  background-color: var(--bg-hover);
-  color: var(--fg);
-}
+   选择器都带 .copy-btn 前缀是必要的：加一个类名就能把特异性抬到 (0,2,0)，
+   稳压全局的 .plain-btn (0,1,0)，不依赖两份 CSS 谁先被注入。 */
 
 .copy-btn.copied {
   color: var(--ok);
@@ -95,7 +81,7 @@ async function onClick() {
   background-color: var(--danger-bg);
 }
 
-.size-md {
+.copy-btn.size-md {
   padding: var(--sp-2) var(--sp-3);
   font-size: var(--fs-sm);
 }
@@ -106,7 +92,7 @@ async function onClick() {
   flex-shrink: 0;
 }
 
-.size-md .icon {
+.copy-btn.size-md .icon {
   width: 15px;
   height: 15px;
 }

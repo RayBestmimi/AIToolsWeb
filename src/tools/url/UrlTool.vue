@@ -152,7 +152,7 @@ const scopeHint = computed(() =>
       <ToggleSwitch v-model="state.showTable" label="解析参数表" />
     </OptionBar>
 
-    <p class="scope-note">{{ scopeHint }}</p>
+    <p class="field-note tight">{{ scopeHint }}</p>
 
     <ErrorBanner v-if="error" :message="error">
       <template v-if="errorIndex !== null" #actions>
@@ -174,8 +174,8 @@ const scopeHint = computed(() =>
 
     <template v-if="state.showTable && queryPairs.length">
       <div class="table-head">
-        <h2 class="table-title">Query 参数（{{ queryPairs.length }} 个）</h2>
-        <p v-if="hasDuplicateKeys" class="dup-note">
+        <h2 class="block-title">Query 参数（{{ queryPairs.length }} 个）</h2>
+        <p v-if="hasDuplicateKeys" class="field-note warn">
           存在重名参数，用 # 序号区分 —— 这是用对象存参数会丢数据的原因
         </p>
       </div>
@@ -210,12 +210,6 @@ const scopeHint = computed(() =>
 </template>
 
 <style scoped>
-.scope-note {
-  font-size: var(--fs-xs);
-  color: var(--fg-subtle);
-  margin-top: calc(-1 * var(--sp-2));
-}
-
 .table-head {
   display: flex;
   align-items: baseline;
@@ -224,19 +218,10 @@ const scopeHint = computed(() =>
   margin-bottom: var(--sp-2);
 }
 
-.table-title {
-  font-size: var(--fs-md);
-}
-
-.dup-note {
-  font-size: var(--fs-xs);
-  color: var(--warn);
-}
-
+/* 同 .tree-box：块内每行有 --bg-hover 悬停色，本身不加底色 */
 .cheatsheet {
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  background-color: var(--bg-elev);
   padding: var(--sp-3);
 }
 
@@ -248,19 +233,5 @@ const scopeHint = computed(() =>
 
 .cheatsheet[open] summary {
   margin-bottom: var(--sp-3);
-}
-
-.plain-btn {
-  padding: var(--sp-1) var(--sp-2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  background-color: var(--bg-elev);
-  color: var(--fg-muted);
-  font-size: var(--fs-xs);
-}
-
-.plain-btn:hover {
-  background-color: var(--bg-hover);
-  color: var(--fg);
 }
 </style>

@@ -137,7 +137,7 @@ function clearFile() {
       />
     </OptionBar>
 
-    <p v-if="urlSafeHint" class="hint">{{ urlSafeHint }}</p>
+    <p v-if="urlSafeHint" class="field-note warn tight">{{ urlSafeHint }}</p>
 
     <ErrorBanner v-if="error" :message="error" :detail="errorDetail" />
 
@@ -158,7 +158,7 @@ function clearFile() {
     <!-- ---------------- 图片 / 文件 ---------------- -->
 
     <section class="file-section">
-      <h2 class="section-title">图片 / 文件转 Base64</h2>
+      <h2 class="block-title">图片 / 文件转 Base64</h2>
 
       <FilePicker
         v-if="!fileResult"
@@ -220,10 +220,6 @@ function clearFile() {
   border-top: 1px solid var(--border);
 }
 
-.section-title {
-  font-size: var(--fs-md);
-}
-
 .preview {
   max-width: 100%;
   max-height: 220px;
@@ -232,25 +228,5 @@ function clearFile() {
   border-radius: var(--radius);
   background-color: var(--bg-sunken);
   align-self: flex-start;
-}
-
-.hint {
-  font-size: var(--fs-xs);
-  color: var(--warn);
-  margin-top: calc(-1 * var(--sp-2));
-}
-
-.plain-btn {
-  padding: var(--sp-1) var(--sp-2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  background-color: var(--bg-elev);
-  color: var(--fg-muted);
-  font-size: var(--fs-xs);
-}
-
-.plain-btn:hover {
-  background-color: var(--bg-hover);
-  color: var(--fg);
 }
 </style>

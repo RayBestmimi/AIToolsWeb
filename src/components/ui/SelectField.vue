@@ -22,7 +22,7 @@ const current = computed({
 
 <template>
   <label class="select-field" :title="label || undefined">
-    <span v-if="label" class="sel-label">{{ label }}</span>
+    <span v-if="label" class="ctl-label">{{ label }}</span>
     <select v-model="current" class="sel-input" :disabled="disabled">
       <option v-if="placeholder" value="" disabled>{{ placeholder }}</option>
       <option v-for="opt in options" :key="opt.value" :value="opt.value">
@@ -38,12 +38,6 @@ const current = computed({
   align-items: center;
   gap: var(--sp-2);
   min-width: 0;
-}
-
-.sel-label {
-  font-size: var(--fs-sm);
-  color: var(--fg-muted);
-  white-space: nowrap;
 }
 
 .sel-input {

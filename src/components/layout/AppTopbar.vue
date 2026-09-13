@@ -19,7 +19,7 @@ const currentTool = computed(() =>
 <template>
   <header class="app-topbar">
     <button
-      class="hamburger"
+      class="hamburger icon-btn"
       type="button"
       :aria-expanded="sidebarOpen"
       aria-label="切换工具列表"
@@ -56,25 +56,9 @@ const currentTool = computed(() =>
   border-bottom: 1px solid var(--border);
 }
 
+/* 尺寸/hover/图标大小都来自 base.css 的 .icon-btn，这里只管宽窄屏的显示切换 */
 .hamburger {
   display: none;
-  width: 32px;
-  height: 32px;
-  align-items: center;
-  justify-content: center;
-  border-radius: var(--radius);
-  color: var(--fg-muted);
-}
-
-.hamburger:hover {
-  background-color: var(--bg-hover);
-  color: var(--fg);
-}
-
-.hamburger svg {
-  width: 19px;
-  height: 19px;
-  display: block;
 }
 
 .crumb {
@@ -96,7 +80,7 @@ const currentTool = computed(() =>
   margin-left: auto;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .app-topbar {
     padding: 0 var(--sp-3);
   }

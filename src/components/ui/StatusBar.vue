@@ -24,7 +24,7 @@ defineProps({
   flex-wrap: wrap;
   gap: var(--sp-4);
   padding: var(--sp-2) var(--sp-3);
-  background-color: var(--bg-elev);
+  background-color: var(--bg-sunken);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   font-size: var(--fs-xs);

@@ -32,7 +32,7 @@ body,
 
 body {
   font-family: var(--font-sans);
-  font-size: var(--fs-base);
+  font-size: var(--fs-md);
   line-height: 1.6;
   color: var(--fg);
   background-color: var(--bg);
@@ -40,12 +40,43 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* 主题切换时让背景色平滑过渡。只过渡颜色，不过渡布局属性，避免影响性能 */
-body,
-.app-sidebar,
-.app-topbar {
-  transition: background-color var(--transition), color var(--transition),
-    border-color var(--transition);
+/* ---------------------------------------------------------------------------
+   主题切换过渡
+
+   为什么用"临时 class"而不是直接写 * { transition }：
+
+   1. 性能。transition-property 一旦挂在 * 上，浏览器每次重算样式都要为
+      每个元素检查一遍过渡属性。JSON 树视图在数据量大时有两万多个节点，
+      这个代价是实打实的。
+   2. 路由切换。每个工具页是懒加载的 chunk，切换时新元素挂载，
+      背景色会从初始值过渡到目标值 —— 每次导航都看到一次"淡入"。
+   3. 特异性。组件用 <style scoped>，编译出来是 .seg-btn[data-v-x]，
+      特异性高于任何合理的全局选择器，不加 !important 根本盖不住。
+
+   所以改成：切主题的那一瞬间由 useTheme.js 给 <html> 加上 .theme-transition，
+   200ms 后自己摘掉。窗口期内全站平滑过渡，窗口之外没有任何额外开销。
+   index.html 的防闪白脚本不受影响 —— 它从不加这个类，首帧永远无过渡。
+   --------------------------------------------------------------------------- */
+html.theme-transition,
+html.theme-transition *,
+html.theme-transition *::before,
+html.theme-transition *::after {
+  transition: background-color var(--transition-theme),
+    border-color var(--transition-theme), color var(--transition-theme),
+    fill var(--transition-theme), stroke var(--transition-theme),
+    box-shadow var(--transition-theme) !important;
+}
+
+/* 减少动效的兜底。必须放在上面那条之后 —— 两条都带 !important 时，
+   html.theme-transition *(0,1,1) 的特异性高于下面通用兜底里的 *(0,0,0)，
+   所以只能靠这里显式声明 none 才能压住。 */
+@media (prefers-reduced-motion: reduce) {
+  html.theme-transition,
+  html.theme-transition *,
+  html.theme-transition *::before,
+  html.theme-transition *::after {
+    transition: none !important;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -166,9 +197,34 @@ select:focus {
    通用工具类
    --------------------------------------------------------------------------- */
 
+/* 等宽字体。时间戳工具的实时时钟和秒级输入框在用 */
 .mono {
   font-family: var(--font-mono);
   font-size: var(--fs-sm);
+}
+
+/* 方形图标按钮：顶栏汉堡、主题切换、侧边栏关闭都用它。
+   放在 base.css 而不是 tool.css —— 它是 app 外壳的零件，不属于工具页。 */
+.icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius);
+  color: var(--fg-muted);
+  transition: background-color var(--transition), color var(--transition);
+}
+
+.icon-btn:hover {
+  background-color: var(--bg-hover);
+  color: var(--fg);
+}
+
+.icon-btn svg {
+  width: var(--icon);
+  height: var(--icon);
+  display: block;
 }
 
 .visually-hidden {

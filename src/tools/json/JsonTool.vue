@@ -245,8 +245,8 @@ function jumpToError() {
 
     <template v-if="state.view === 'tree' && parsedOk">
       <div class="tree-head">
-        <span class="tree-title">树形视图</span>
-        <span class="tree-note">{{ nodeCount }} 个节点，点击箭头折叠展开</span>
+        <span class="ctl-label strong">树形视图</span>
+        <span class="field-note">{{ nodeCount }} 个节点，点击箭头折叠展开</span>
       </div>
 
       <ErrorBanner
@@ -310,37 +310,13 @@ function jumpToError() {
   flex-wrap: wrap;
 }
 
-.tree-title {
-  font-size: var(--fs-sm);
-  font-weight: 500;
-  color: var(--fg-muted);
-}
-
-.tree-note {
-  font-size: var(--fs-xs);
-  color: var(--fg-subtle);
-}
-
+/* 不加底色：块内部每行都有 --bg-hover 悬停色，底色若也是浅灰会看不出来。
+   靠 1px 边框在白色卡片上圈出范围就够了。 */
 .tree-box {
   padding: var(--sp-3);
-  background-color: var(--bg-elev);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   max-height: 60vh;
   overflow: auto;
-}
-
-.plain-btn {
-  padding: var(--sp-1) var(--sp-2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  background-color: var(--bg-elev);
-  color: var(--fg-muted);
-  font-size: var(--fs-xs);
-}
-
-.plain-btn:hover {
-  background-color: var(--bg-hover);
-  color: var(--fg);
 }
 </style>

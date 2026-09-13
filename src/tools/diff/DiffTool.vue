@@ -4,6 +4,7 @@ import ToolPanel from '@/components/ui/ToolPanel.vue'
 import TextAreaField from '@/components/ui/TextAreaField.vue'
 import ToggleSwitch from '@/components/ui/ToggleSwitch.vue'
 import OptionBar from '@/components/ui/OptionBar.vue'
+import CopyButton from '@/components/ui/CopyButton.vue'
 import ErrorBanner from '@/components/ui/ErrorBanner.vue'
 import StatusBar from '@/components/ui/StatusBar.vue'
 import { useToolState } from '@/composables/useToolState'
@@ -103,11 +104,43 @@ function swap() {
   state.left = state.right
   state.right = t
 }
+
+/**
+ * 把当前可见的行拼成带行号和标记的纯文本，供复制按钮使用。
+ *
+ * ⚠️ 定义成函数而不是 computed，是为了让 CopyButton 延迟求值 ——
+ *    几千行的 diff 每次重渲染都拼一遍字符串是纯浪费，点复制时再算就够了。
+ *    传给 CopyButton 的 :text 要写 getDiffText（函数引用本身），
+ *    不能写 () => getDiffText —— 模板里的箭头函数内部不会自动解包 computed。
+ */
+function getDiffText() {
+  const pad = (n) => String(n ?? '').padStart(4, ' ')
+  return visibleRows.value
+    .map((r) => {
+      const mark =
+        r.type === 'add' ? '+' : r.type === 'del' ? '-' : r.type === 'change' ? '~' : ' '
+      const body =
+        r.type === 'add'
+          ? (r.right ?? '')
+          : r.type === 'del'
+            ? (r.left ?? '')
+            : r.type === 'change'
+              ? `${r.left ?? ''} → ${r.right ?? ''}`
+              : (r.left ?? '')
+      return `${pad(r.leftNo)} ${pad(r.rightNo)} ${mark} ${body}`
+    })
+    .join('\n')
+}
 </script>
 
 <template>
   <ToolPanel title="文本对比" desc="逐行 diff 高亮 · 行内词级差异 · 忽略大小写与空白">
     <template #actions>
+      <CopyButton
+        :text="getDiffText"
+        label="复制差异"
+        :disabled="!visibleRows.length"
+      />
       <button class="plain-btn" @click="swap">交换左右</button>
       <button class="plain-btn" @click="reset">清空</button>
     </template>
@@ -118,13 +151,21 @@ function swap() {
         label="原始文本"
         placeholder="粘贴旧版本"
         :rows="10"
-      />
+      >
+        <template #toolbar>
+          <CopyButton :text="state.left" />
+        </template>
+      </TextAreaField>
       <TextAreaField
         v-model="state.right"
         label="对比文本"
         placeholder="粘贴新版本"
         :rows="10"
-      />
+      >
+        <template #toolbar>
+          <CopyButton :text="state.right" />
+        </template>
+      </TextAreaField>
     </div>
 
     <OptionBar divider>
@@ -215,12 +256,12 @@ function swap() {
   font-family: var(--font-mono);
 }
 
+/* 不加底色：行本身带增删改的配色，底色若也是浅灰会互相干扰 */
 .diff-box {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   overflow: auto;
   max-height: 60vh;
-  background-color: var(--bg-elev);
 }
 
 .diff-table {
@@ -243,7 +284,6 @@ function swap() {
   text-align: right;
   color: var(--diff-gutter);
   user-select: none;
-  background-color: var(--bg-elev);
   border-right: 1px solid var(--border);
 }
 
@@ -318,19 +358,5 @@ function swap() {
   font-size: var(--fs-xs);
   color: var(--fg-subtle);
   text-align: right;
-}
-
-.plain-btn {
-  padding: var(--sp-1) var(--sp-2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  background-color: var(--bg-elev);
-  color: var(--fg-muted);
-  font-size: var(--fs-xs);
-}
-
-.plain-btn:hover {
-  background-color: var(--bg-hover);
-  color: var(--fg);
 }
 </style>

@@ -161,7 +161,7 @@ async function onFile(file) {
             label="把换行统一成 LF"
             hint="Windows 的 \r\n 和 Unix 的 \n 算出的哈希完全不同。从记事本或 Excel 复制的内容常常是 \r\n"
           />
-          <span v-if="crlfCount > 0" class="crlf-note">
+          <span v-if="crlfCount > 0" class="field-note warn">
             检测到 {{ crlfCount }} 处 CRLF（\r\n）
           </span>
         </OptionBar>
@@ -213,23 +213,3 @@ async function onFile(file) {
   </ToolPanel>
 </template>
 
-<style scoped>
-.crlf-note {
-  font-size: var(--fs-xs);
-  color: var(--warn);
-}
-
-.plain-btn {
-  padding: var(--sp-1) var(--sp-2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  background-color: var(--bg-elev);
-  color: var(--fg-muted);
-  font-size: var(--fs-xs);
-}
-
-.plain-btn:hover {
-  background-color: var(--bg-hover);
-  color: var(--fg);
-}
-</style>

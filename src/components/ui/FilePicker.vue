@@ -90,7 +90,7 @@ function onChange(e) {
   flex-direction: column;
   align-items: center;
   gap: var(--sp-1);
-  padding: var(--sp-5);
+  padding: var(--sp-6);
   border: 2px dashed var(--border-strong);
   border-radius: var(--radius);
   background-color: var(--bg-sunken);
@@ -110,8 +110,8 @@ function onChange(e) {
 }
 
 .icon {
-  width: 26px;
-  height: 26px;
+  width: var(--icon-lg);
+  height: var(--icon-lg);
   color: var(--fg-subtle);
   margin-bottom: var(--sp-1);
 }

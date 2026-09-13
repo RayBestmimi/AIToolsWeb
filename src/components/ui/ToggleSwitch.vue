@@ -59,7 +59,7 @@ const emit = defineEmits(['update:modelValue'])
   width: 32px;
   height: 18px;
   flex-shrink: 0;
-  border-radius: 9px;
+  border-radius: var(--radius-full);
   background-color: var(--border-strong);
   transition: background-color var(--transition);
 }
@@ -71,7 +71,7 @@ const emit = defineEmits(['update:modelValue'])
   width: 14px;
   height: 14px;
   border-radius: 50%;
-  background-color: #fff;
+  background-color: var(--switch-knob);
   box-shadow: var(--shadow-sm);
   transition: transform var(--transition);
 }

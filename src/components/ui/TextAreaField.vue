@@ -63,7 +63,7 @@ watch(
 <template>
   <div class="field">
     <div v-if="label || $slots.toolbar" class="field-head">
-      <label v-if="label" class="field-label">{{ label }}</label>
+      <label v-if="label" class="ctl-label strong">{{ label }}</label>
       <div class="field-toolbar">
         <slot name="toolbar" />
       </div>
@@ -102,12 +102,6 @@ watch(
   min-height: 24px;
 }
 
-.field-label {
-  font-size: var(--fs-sm);
-  font-weight: 500;
-  color: var(--fg-muted);
-}
-
 .field-toolbar {
   display: flex;
   align-items: center;
@@ -128,8 +122,11 @@ watch(
   font-family: var(--font-mono);
 }
 
+/* 只读（输出）框刻意比可编辑框浅一档，两个主题下都是这个方向。
+   用 --bg 而不是 --bg-sunken：后者会和可编辑框同色，丢掉输入/输出的区分；
+   用 --bg-elev 又会和卡片同色而"消失"。 */
 .field-input[readonly] {
-  background-color: var(--bg-elev);
+  background-color: var(--bg);
   cursor: text;
 }
 

@@ -21,7 +21,7 @@ const title = computed(() => {
 
 <template>
   <button
-    class="theme-toggle"
+    class="theme-toggle icon-btn"
     type="button"
     :title="title"
     :aria-label="title"
@@ -60,26 +60,6 @@ const title = computed(() => {
   </button>
 </template>
 
-<style scoped>
-.theme-toggle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: var(--radius);
-  color: var(--fg-muted);
-  transition: background-color var(--transition), color var(--transition);
-}
+<!-- 外观全部来自 base.css 的 .icon-btn —— 顶栏汉堡、侧边栏关闭按钮用的是同一个类，
+     三者尺寸/hover/图标大小必须一致，所以不在这里重复定义。 -->
 
-.theme-toggle:hover {
-  background-color: var(--bg-hover);
-  color: var(--fg);
-}
-
-.theme-toggle svg {
-  width: 19px;
-  height: 19px;
-  display: block;
-}
-</style>
