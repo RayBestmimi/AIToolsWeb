@@ -1,8 +1,9 @@
 # 依赖目录，由 npm install 生成，不入库
 node_modules/
 
-# 构建产物，由 CI 生成，不入库
-dist/
+# 构建产物：dist/ 入库，让别人 clone 后不用装 Node.js，直接双击 dist/index.html 就能用。
+# 代价是每次改完源码必须重新 `npm run build` 再提交，否则仓库里那份是过期的。
+# CI 部署不受影响：它仍然现场跑 `npm run build`，不读仓库里这份。
 dist-ssr/
 
 # 本地环境变量
