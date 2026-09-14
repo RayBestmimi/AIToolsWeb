@@ -55,9 +55,7 @@ npm run preview  # 本地预览构建产物（部署前建议先跑一次）
 
 ## 技术栈
 
-Vue 3 + Vite + vue-router，运行时依赖只有 3 个包。
-
-没有 TypeScript、没有 ESLint、没有 CSS 框架、没有 UI 组件库。能用浏览器原生能力的地方一律不引库：
+HTML5/+CSS3+JavaScript(ES6+)+Vue3
 
 - 哈希用 `crypto.subtle`
 - 时区与日期格式用 `Intl`
